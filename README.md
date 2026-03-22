@@ -3,6 +3,7 @@
 Deterministic synthetic user persona generator for AI testing, simulation, and UX research.
 
 [![npm version](https://img.shields.io/npm/v/synth-personas.svg)](https://www.npmjs.com/package/synth-personas)
+[![npm downloads](https://img.shields.io/npm/dt/synth-personas.svg)](https://www.npmjs.com/package/synth-personas)
 [![license](https://img.shields.io/npm/l/synth-personas.svg)](https://github.com/SiluPanda/synth-personas/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/synth-personas.svg)](https://www.npmjs.com/package/synth-personas)
 [![types](https://img.shields.io/npm/types/synth-personas.svg)](https://www.npmjs.com/package/synth-personas)
