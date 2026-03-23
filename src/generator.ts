@@ -62,20 +62,20 @@ export function generate(options?: PersonaOptions): Persona {
   const eduBonus = ['phd', 'masters', 'bachelors'].includes(education) ? 0.2 : 0
   const rawLiteracy = randFloat(1, 5, rng, 0) + ageBonus + eduBonus
   const literacy = Math.min(5, Math.max(1, Math.round(rawLiteracy))) as 1 | 2 | 3 | 4 | 5
-  const digitalNative = age < 35 ? rng() < 0.8 : rng() < 0.3
+  const digitalNative = age < 36 ? rng() < 0.8 : rng() < 0.3
   const numDevices = randInt(1, 3, rng)
   const preferredDevices = [
     'smartphone',
     ...DEVICES.filter((d) => d !== 'smartphone').slice(0, numDevices - 1),
   ]
   const platformFamiliarity = (
-    literacy <= 2
+    literacy <= 1
+      ? 'none'
+      : literacy === 2
       ? 'basic'
       : literacy === 3
       ? 'intermediate'
-      : literacy === 4
-      ? 'advanced'
-      : 'expert'
+      : 'advanced'
   ) as PersonaTechnical['platformFamiliarity']
 
   // COMMUNICATION — correlates with personality traits
@@ -110,7 +110,7 @@ export function generate(options?: PersonaOptions): Persona {
     rng,
   ) as PersonaContext['productFamiliarity']
   const sessionContext = pick(
-    ['focused', 'multitasking', 'rushed'],
+    ['first-contact', 'mid-conversation', 'returning-after-absence'],
     rng,
   ) as PersonaContext['sessionContext']
 

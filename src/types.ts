@@ -21,7 +21,7 @@ export interface PersonaTechnical {
   literacy: number // 1-5
   digitalNative: boolean
   preferredDevices: string[]
-  platformFamiliarity: 'basic' | 'intermediate' | 'advanced' | 'expert'
+  platformFamiliarity: 'none' | 'basic' | 'intermediate' | 'advanced'
 }
 
 export interface PersonaCommunication {
@@ -46,7 +46,7 @@ export interface PersonaBehavior {
 export interface PersonaContext {
   motivation: 'information-seeking' | 'task-completion' | 'exploration' | 'frustration'
   productFamiliarity: 'new' | 'returning' | 'expert'
-  sessionContext: 'focused' | 'multitasking' | 'rushed'
+  sessionContext: 'first-contact' | 'mid-conversation' | 'returning-after-absence'
 }
 
 export interface Persona {
