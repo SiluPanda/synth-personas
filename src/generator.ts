@@ -63,11 +63,14 @@ export function generate(options?: PersonaOptions): Persona {
   const rawLiteracy = randFloat(1, 5, rng, 0) + ageBonus + eduBonus
   const literacy = Math.min(5, Math.max(1, Math.round(rawLiteracy))) as 1 | 2 | 3 | 4 | 5
   const digitalNative = age < 36 ? rng() < 0.8 : rng() < 0.3
-  const numDevices = randInt(1, 3, rng)
-  const preferredDevices = [
-    'smartphone',
-    ...DEVICES.filter((d) => d !== 'smartphone').slice(0, numDevices - 1),
-  ]
+  const numDevices = randInt(1, DEVICES.length, rng)
+  const otherDevices = [...DEVICES.filter((d) => d !== 'smartphone')]
+  // Fisher-Yates shuffle with rng so device selection is deterministically random
+  for (let i = otherDevices.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [otherDevices[i], otherDevices[j]] = [otherDevices[j], otherDevices[i]]
+  }
+  const preferredDevices = ['smartphone', ...otherDevices.slice(0, numDevices - 1)]
   const platformFamiliarity = (
     literacy <= 1
       ? 'none'

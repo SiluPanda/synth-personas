@@ -66,6 +66,54 @@ describe('generate()', () => {
       expect(p.technical.literacy).toBeLessThanOrEqual(5)
     }
   })
+
+  it('preferredDevices always includes smartphone as first device', () => {
+    for (let s = 0; s < 50; s++) {
+      const p = generate({ seed: s * 77 })
+      expect(p.technical.preferredDevices[0]).toBe('smartphone')
+    }
+  })
+
+  it('preferredDevices only contains valid devices', () => {
+    const validDevices = ['smartphone', 'laptop', 'desktop', 'tablet']
+    for (let s = 0; s < 50; s++) {
+      const p = generate({ seed: s * 77 })
+      for (const d of p.technical.preferredDevices) {
+        expect(validDevices).toContain(d)
+      }
+    }
+  })
+
+  it('preferredDevices can include all 4 devices', () => {
+    const allSeen = new Set<number>()
+    for (let s = 0; s < 200; s++) {
+      allSeen.add(generate({ seed: s }).technical.preferredDevices.length)
+    }
+    expect(allSeen.has(4)).toBe(true)
+  })
+
+  it('all device types are reachable across many seeds', () => {
+    const seenDevices = new Set<string>()
+    for (let s = 0; s < 200; s++) {
+      for (const d of generate({ seed: s }).technical.preferredDevices) {
+        seenDevices.add(d)
+      }
+    }
+    expect(seenDevices).toEqual(new Set(['smartphone', 'laptop', 'desktop', 'tablet']))
+  })
+
+  it('device order varies across different seeds', () => {
+    // Collect non-smartphone device orderings from personas with 2+ devices
+    const orderings = new Set<string>()
+    for (let s = 0; s < 200; s++) {
+      const devices = generate({ seed: s }).technical.preferredDevices
+      if (devices.length >= 2) {
+        orderings.add(devices.slice(1).join(','))
+      }
+    }
+    // With proper shuffling, we should see more than just one ordering
+    expect(orderings.size).toBeGreaterThan(1)
+  })
 })
 
 describe('generateBatch()', () => {
